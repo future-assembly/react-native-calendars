@@ -8,6 +8,7 @@ import Reservation from './reservation';
 import PropTypes from 'prop-types';
 import XDate from 'xdate';
 
+import {xdateToData} from '../../interface';
 import dateutils from '../../dateutils';
 import styleConstructor from './style';
 
@@ -83,6 +84,27 @@ class ReactComp extends Component {
       this.updateReservations(props);
     }
   }
+
+  isRendered () {
+    for (let t = 0; t < this.heights.length; t++) {
+      if (!this.heights[t]) return false;
+    }
+    return true;
+  }
+
+  onRenderList () {
+    if (this.props.getScrollIndexWhenInit && this.isRendered()) {
+      const reservations = this.state.reservations.map((reservation) => (reservation.reservation));
+      const index = this.props.getScrollIndexWhenInit(reservations, xdateToData(this.selectedDay).dateString);
+      let scrollPosition = 0;
+      for (let i = 0; i < index; i++) {
+        scrollPosition += this.heights[i] || 0;
+      }
+      this.scrollOver = false;
+      this.list.scrollToOffset({offset: scrollPosition, animated: true});
+    }
+  }
+
 
   onScroll(event) {
     const yOffset = event.nativeEvent.contentOffset.y;
@@ -202,6 +224,7 @@ class ReactComp extends Component {
         refreshControl={this.props.refreshControl}
         refreshing={this.props.refreshing || false}
         onRefresh={this.props.onRefresh}
+        onLayout={this.onRenderList.bind(this)}
       />
     );
   }
