@@ -389,6 +389,23 @@ export default class AgendaView extends Component {
         <View style={this.styles.reservations}>
           {this.renderReservations()}
         </View>
+        <Animated.View style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          left: 0,
+          height: 104,
+          backgroundColor: '#ffffff',
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowOpacity: 0.22,
+          shadowRadius: 2.22,
+          elevation: 3,
+          transform: [{ translateY: headerTranslate }],
+        }} />
         <Animated.View style={headerStyle}>
           <Animated.View style={{flex:1, transform: [{ translateY: contentTranslate }]}}>
             <CalendarList
