@@ -16,7 +16,7 @@ import ReservationsList from './reservation-list';
 import styleConstructor from './style';
 import { VelocityTracker } from '../input';
 
-const HEADER_HEIGHT = 104;
+const HEADER_HEIGHT = 80;
 const KNOB_HEIGHT = 24;
 
 //Fallback when RN version is < 0.44
@@ -373,16 +373,16 @@ export default class AgendaView extends Component {
       left: (this.viewWidth - 80) / 2,
     };
 
-    let knob = (<View style={this.styles.knobContainer} />);
+    // let knob = (<View style={this.styles.knobContainer} />);
 
-    if (!this.props.hideKnob) {
-      const knobView = this.props.renderKnob ? this.props.renderKnob() : (<View style={this.styles.knob} />);
-      knob = this.state.calendarScrollable ? null : (
-        <View style={this.styles.knobContainer}>
-          <View ref={(c) => this.knob = c}>{knobView}</View>
-        </View>
-      );
-    }
+    // if (!this.props.hideKnob) {
+    //   const knobView = this.props.renderKnob ? this.props.renderKnob() : (<View style={this.styles.knob} />);
+    //   knob = this.state.calendarScrollable ? null : (
+    //     <View style={this.styles.knobContainer}>
+    //       <View ref={(c) => this.knob = c}>{knobView}</View>
+    //     </View>
+    //   );
+    // }
 
     return (
       <View onLayout={this.onLayout} style={[this.props.style, {flex: 1, overflow: 'hidden'}]}>
@@ -394,9 +394,9 @@ export default class AgendaView extends Component {
           top: 0,
           right: 0,
           left: 0,
-          height: 104,
+          height: HEADER_HEIGHT,
           backgroundColor: '#ffffff',
-          shadowColor: "#000",
+          shadowColor: '#000',
           shadowOffset: {
             width: 0,
             height: 1,
@@ -405,9 +405,10 @@ export default class AgendaView extends Component {
           shadowRadius: 2.22,
           elevation: 3,
           transform: [{ translateY: headerTranslate }],
-        }} />
+        }}
+        />
         <Animated.View style={headerStyle}>
-          <Animated.View style={{flex:1, transform: [{ translateY: contentTranslate }]}}>
+          <Animated.View style={{flex:1, paddingTop: 10, transform: [{ translateY: contentTranslate }]}}>
             <CalendarList
               onLayout={() => {
                 this.calendar.scrollToDay(this.state.selectedDay.clone(), this.calendarOffset(), false);
@@ -435,7 +436,6 @@ export default class AgendaView extends Component {
               showWeekNumbers={this.props.showWeekNumbers}
             />
           </Animated.View>
-          {knob}
         </Animated.View>
         <Animated.View style={weekdaysStyle}>
           {this.props.showWeekNumbers && <Text allowFontScaling={false} style={this.styles.weekday} numberOfLines={1} />}
