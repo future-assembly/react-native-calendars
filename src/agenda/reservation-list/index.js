@@ -177,13 +177,10 @@ class ReactComp extends Component {
     }
     let reservations = [];
     if (this.state.reservations && this.state.reservations.length) {
-      const iterator = this.state.reservations[0].day.clone();
+      const iterator = dateutils.isLTE(XDate(true), this.state.reservations[0].day.clone()) ? XDate(true) : this.state.reservations[0].day.clone()
       while (iterator.getTime() < props.selectedDay.getTime()) {
         const res = this.getReservationsForDay(iterator, props);
-        if (!res) {
-          reservations = [];
-          break;
-        } else {
+        if (res) {
           reservations = reservations.concat(res);
         }
         iterator.addDays(1);
@@ -198,7 +195,6 @@ class ReactComp extends Component {
       }
       iterator.addDays(1);
     }
-
     return {reservations, scrollPosition};
   }
 
