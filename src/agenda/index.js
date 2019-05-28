@@ -350,7 +350,7 @@ export default class AgendaView extends Component {
           <Animated.View style={{flex:1, paddingTop: 10, transform: [{ translateY: contentTranslate }]}}>
             <CalendarList
               onLayout={() => {
-                this.calendar.scrollToDay(this.state.selectedDay.clone(), this.calendarOffset(), false);
+                setTimeout(() => this.calendar.scrollToDay(this.state.selectedDay.clone(), this.calendarOffset(), false), 300)
               }}
               calendarWidth={this.viewWidth}
               theme={this.props.theme}
