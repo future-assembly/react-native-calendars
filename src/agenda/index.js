@@ -5,6 +5,7 @@ import {
   Dimensions,
   Animated,
   ViewPropTypes,
+  Platform,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import XDate from 'xdate';
@@ -329,23 +330,26 @@ export default class AgendaView extends Component {
         <View style={this.styles.reservations}>
           {this.renderReservations()}
         </View>
-        <Animated.View style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          left: 0,
-          height: HEADER_HEIGHT,
-          backgroundColor: '#ffffff',
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 1,
-          },
-          shadowOpacity: 0.22,
-          shadowRadius: 2.22,
-          elevation: 3,
-        }}
-        />
+        {
+          Platform.OS === 'ios' &&
+            <Animated.View style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              left: 0,
+              height: HEADER_HEIGHT,
+              backgroundColor: '#ffffff',
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 1,
+              },
+              shadowOpacity: 0.22,
+              shadowRadius: 2.22,
+              elevation: 3,
+            }}
+            />
+        }
         <View style={headerStyle}>
           <Animated.View style={{flex:1, paddingTop: 10, transform: [{ translateY: contentTranslate }]}}>
             <CalendarList
