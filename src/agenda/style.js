@@ -16,6 +16,7 @@ export default function styleConstructor(theme = {}) {
       position:'absolute',
       height:'100%',
       width:'100%',
+      elevation: 3
     },
     calendar: {
       flex: 1,

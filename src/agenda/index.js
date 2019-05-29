@@ -284,6 +284,7 @@ export default class AgendaView extends Component {
     const agendaHeight = Math.max(0, this.viewHeight - HEADER_HEIGHT);
     const weekDaysNames = dateutils.weekDayNames(this.props.firstDay);
     const weekdaysStyle = [this.styles.weekdays, {
+      elevation: 3,
       opacity: this.state.scrollY.interpolate({
         inputRange: [agendaHeight - HEADER_HEIGHT, agendaHeight],
         outputRange: [0, 1],
@@ -330,28 +331,25 @@ export default class AgendaView extends Component {
         <View style={this.styles.reservations}>
           {this.renderReservations()}
         </View>
-        {
-          Platform.OS === 'ios' &&
-            <Animated.View style={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              left: 0,
-              height: HEADER_HEIGHT,
-              backgroundColor: '#ffffff',
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 1,
-              },
-              shadowOpacity: 0.22,
-              shadowRadius: 2.22,
-              elevation: 3,
-            }}
-            />
-        }
+        <Animated.View style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          left: 0,
+          height: HEADER_HEIGHT,
+          backgroundColor: '#ffffff',
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowOpacity: 0.22,
+          shadowRadius: 2.22,
+          elevation: 3,
+        }}
+        />
         <View style={headerStyle}>
-          <Animated.View style={{flex:1, paddingTop: 10, transform: [{ translateY: contentTranslate }]}}>
+          <Animated.View style={{flex:1, paddingTop: 5, transform: [{ translateY: contentTranslate }]}}>
             <CalendarList
               onLayout={() => {
                 setTimeout(() => this.calendar.scrollToDay(this.state.selectedDay.clone(), this.calendarOffset(), false), 300)
