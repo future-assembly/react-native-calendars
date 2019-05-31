@@ -93,16 +93,18 @@ class ReactComp extends Component {
   }
 
   onRenderList () {
-    if (this.props.getScrollIndexWhenInit && this.isRendered()) {
-      const reservations = this.state.reservations.map((reservation) => (reservation.reservation));
-      const index = this.props.getScrollIndexWhenInit(reservations, xdateToData(this.selectedDay).dateString);
-      let scrollPosition = 0;
-      for (let i = 0; i < index; i++) {
-        scrollPosition += this.heights[i] || 0;
+    setTimeout(() => {
+      if (this.props.getScrollIndexWhenInit && this.isRendered()) {
+        const reservations = this.state.reservations.map((reservation) => (reservation.reservation));
+        const index = this.props.getScrollIndexWhenInit(reservations, xdateToData(this.selectedDay).dateString);
+        let scrollPosition = 0;
+        for (let i = 0; i < index; i++) {
+          scrollPosition += this.heights[i] || 0;
+        }
+        this.scrollOver = false;
+        this.list.scrollToOffset({offset: scrollPosition, animated: true});
       }
-      this.scrollOver = false;
-      this.list.scrollToOffset({offset: scrollPosition, animated: true});
-    }
+    }, 100)
   }
 
 
