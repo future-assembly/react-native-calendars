@@ -101,7 +101,7 @@ class ReactComp extends Component {
         for (let i = 0; i < index; i++) {
           scrollPosition += this.heights[i] || 0;
         }
-        this.scrollOver = false;
+        // this.scrollOver = false;
         this.list.scrollToOffset({offset: scrollPosition, animated: true});
       }
     }, 100)
