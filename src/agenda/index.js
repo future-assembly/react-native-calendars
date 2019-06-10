@@ -95,9 +95,6 @@ export default class AgendaView extends Component {
   constructor(props) {
     super(props);
     this.styles = styleConstructor(props.theme);
-    const windowSize = Dimensions.get('window');
-    this.viewHeight = windowSize.height;
-    this.viewWidth = windowSize.width;
     this.scrollTimeout = undefined;
     this.headerState = 'idle';
     this.state = {
@@ -107,19 +104,12 @@ export default class AgendaView extends Component {
       topDay: parseDate(this.props.selected) || XDate(true),
     };
     this.currentMonth = this.state.selectedDay.clone();
-    this.onLayout = this.onLayout.bind(this);
     this.generateMarkings = this.generateMarkings.bind(this);
     this.knobTracker = new VelocityTracker();
   }
 
   calendarOffset() {
     return 90 - (HEADER_HEIGHT / 2);
-  }
-
-  onLayout(event) {
-    this.viewHeight = event.nativeEvent.layout.height;
-    this.viewWidth = event.nativeEvent.layout.width;
-    this.forceUpdate();
   }
 
   onVisibleMonthsChange(months) {
@@ -271,10 +261,8 @@ export default class AgendaView extends Component {
       },
     ];
 
-    const shouldAllowDragging = !this.props.hideKnob && !this.state.calendarScrollable;
-
     return (
-      <View onLayout={this.onLayout} style={[this.props.style, {flex: 1, overflow: 'hidden'}]}>
+      <View style={[this.props.style, {flex: 1, overflow: 'hidden'}]}>
         <View style={this.styles.reservations}>
           {this.renderReservations()}
         </View>
@@ -299,9 +287,10 @@ export default class AgendaView extends Component {
           <Animated.View style={{ paddingTop: 5 }}>
             <CalendarList
               onLayout={() => {
-                this.calendar.scrollToDay(this.state.selectedDay.clone(), this.calendarOffset(), false)
+                setTimeout(() => {
+                  this.calendar.scrollToDay(this.state.selectedDay.clone(), this.calendarOffset(), false)
+                }, 10)
               }}
-              calendarWidth={this.viewWidth}
               theme={this.props.theme}
               onVisibleMonthsChange={this.onVisibleMonthsChange.bind(this)}
               ref={(c) => this.calendar = c}
@@ -312,7 +301,7 @@ export default class AgendaView extends Component {
               markingType={this.props.markingType}
               removeClippedSubviews={this.props.removeClippedSubviews}
               onDayPress={this._chooseDayFromCalendar.bind(this)}
-              scrollEnabled={true}
+              scrollEnabled={false}
               hideExtraDays={this.state.calendarScrollable}
               firstDay={this.props.firstDay}
               monthFormat={this.props.monthFormat}
