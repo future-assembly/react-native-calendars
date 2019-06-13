@@ -214,6 +214,7 @@ class ReactComp extends Component {
         contentContainerStyle={this.styles.content}
         renderItem={this.renderRow.bind(this)}
         data={this.state.reservations}
+        initialNumToRender={this.state.reservations.length}
         onScroll={this.onScroll.bind(this)}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={200}
